@@ -10,11 +10,11 @@
 * 3.noise remove
 * 잡음 제거
 * Morphology 
-* 1. Erosion 침식
+* <1. Erosion 침식
 원본영상에 마스크 mxn 행렬을 대조할경우 
 마스크 값이 모두 1일 경우 계산된 영상엔 
 중간값이 1 or 마스크가 2x2인경우 오른쪽부터 1
-* 2. Dilation 팽창
+* <2. Dilation 팽창
 Erosion과 반대로 마스크 값이 하나라도 1이면 
 계산된 영상엔 중간값이 1
 * Opening 침식 -> 팽창 
