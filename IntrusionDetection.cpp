@@ -1,35 +1,32 @@
 /*
 * Intrusion Detection Project
-* 
+
 * 1.input image
-* ÀÔ·Â¿µ»óÀÌ ÀúÀå¿µ»ó,Ä·À¸·ÎºÎÅÍ ¹Ş¾Æ¿À±â
+* ì…ë ¥ì˜ìƒì´ ì €ì¥ì˜ìƒ,ìº ìœ¼ë¡œë¶€í„° ë°›ì•„ì˜¤ê¸°
+
 * 2.BG Subtraction
-* ¹è°æ Á¦°Å
+* ë°°ê²½ ì œê±°
+
 * 3.noise remove
-* ÀâÀ½ Á¦°Å
-* convolution
-* 1. Erosion Ä§½Ä
-¿øº»¿µ»ó¿¡ ¸¶½ºÅ© mxn Çà·ÄÀ» ´ëÁ¶ÇÒ°æ¿ì 
-¸¶½ºÅ© °ªÀÌ ¸ğµÎ 1ÀÏ °æ¿ì °è»êµÈ ¿µ»ó¿£ 
-Áß°£°ªÀÌ 1 or ¸¶½ºÅ©°¡ 2x2ÀÎ°æ¿ì ¿À¸¥ÂÊºÎÅÍ 1
-* 2. Dilation ÆØÃ¢
-Erosion°ú ¹İ´ë·Î ¸¶½ºÅ© °ªÀÌ ÇÏ³ª¶óµµ 1ÀÌ¸é 
-°è»êµÈ ¿µ»ó¿£ Áß°£°ªÀÌ 1
+* ì¡ìŒ ì œê±°
 * Morphology 
-* Opening Ä§½Ä -> ÆØÃ¢ 
-* Closing ÆØÃ¢ -> Ä§½Ä
+* 1. Erosion ì¹¨ì‹
+ì›ë³¸ì˜ìƒì— ë§ˆìŠ¤í¬ mxn í–‰ë ¬ì„ ëŒ€ì¡°í• ê²½ìš° 
+ë§ˆìŠ¤í¬ ê°’ì´ ëª¨ë‘ 1ì¼ ê²½ìš° ê³„ì‚°ëœ ì˜ìƒì—” 
+ì¤‘ê°„ê°’ì´ 1 or ë§ˆìŠ¤í¬ê°€ 2x2ì¸ê²½ìš° ì˜¤ë¥¸ìª½ë¶€í„° 1
+* 2. Dilation íŒ½ì°½
+Erosionê³¼ ë°˜ëŒ€ë¡œ ë§ˆìŠ¤í¬ ê°’ì´ í•˜ë‚˜ë¼ë„ 1ì´ë©´ 
+ê³„ì‚°ëœ ì˜ìƒì—” ì¤‘ê°„ê°’ì´ 1
+* Opening ì¹¨ì‹ -> íŒ½ì°½ 
+* Closing íŒ½ì°½ -> ì¹¨ì‹
 
 * 4.decision moving object
-* ¿òÁ÷ÀÓÆÇ´Ü
+* ì›€ì§ì„íŒë‹¨
 * Moving Average
-¿¬¼ÓÀûÀÎ ÇÁ·¹ÀÓÀ» °è¼ÓÇØ¼­ Æò±ÕÀ» ³»¸é¼­ ¹è°æÀ» ¾÷µ¥ÀÌÆ® ½ÃÅ°´Â ¹æ¹ı
-* addWeighted(¿µ»ó, alpha, BG¿µ»ó,beta,0.0,BG¿µ»ó);
- ¿µ»ó,BG¿µ»ó µÎ ÇÁ·¹ÀÓÀÌ ¿©·¯°¡ÁöÀÇ ºñÀ² Áß 
- ÇÏ³¯ »ç¿ëÇØ¼­ ÇÕÀ» BG¿µ»óÀÌ ¼­¼­È÷ º¯ÇÏ´Â ÇÔ¼ö(°¡ÁßÄ¡ÇÔ¼ö)
-
-* 5.Upload Image to GoogleDrive
-* ±¸±Û µå¶óÀÌºê¿¡ ¾÷·Îµå
-
+ì—°ì†ì ì¸ í”„ë ˆì„ì„ ê³„ì†í•´ì„œ í‰ê· ì„ ë‚´ë©´ì„œ ë°°ê²½ì„ ì—…ë°ì´íŠ¸ ì‹œí‚¤ëŠ” ë°©ë²•
+* addWeighted(ì˜ìƒ, alpha, BGì˜ìƒ,beta,0.0,BGì˜ìƒ);
+ ì˜ìƒ,BGì˜ìƒ ë‘ í”„ë ˆì„ì´ ì—¬ëŸ¬ê°€ì§€ì˜ ë¹„ìœ¨ ì¤‘ 
+ í•˜ë‚  ì‚¬ìš©í•´ì„œ í•©ì„ BGì˜ìƒì´ ì„œì„œíˆ ë³€í•˜ëŠ” í•¨ìˆ˜(ê°€ì¤‘ì¹˜í•¨ìˆ˜)
 */
 
 #include <opencv2/opencv.hpp>
@@ -52,7 +49,7 @@ using namespace std;
 
 void draw_rect(Mat& img, vector<Rect>& v_rect)
 {
-	//¹Ş¾Æ¿Â °ªÀ» rectangleÀ» ±×·ÁÁÖ´Â ÇÔ¼ö
+	//ë°›ì•„ì˜¨ ê°’ì„ rectangleì„ ê·¸ë ¤ì£¼ëŠ” í•¨ìˆ˜
 	for (auto it : v_rect) {
 		rectangle(img, it, CV_RGB(255, 0 , 0), 2);
 	}
@@ -61,20 +58,20 @@ void draw_rect(Mat& img, vector<Rect>& v_rect)
 int main(int, char)
 {
 	int TH1 = 100;
-	// ÇÈ¼¿°ª Â÷ÀÌ°¡ TH1°ª ÀÌ»óÀÏ¶§¸¸ °ËÃâµÈ´Ù
+	// í”½ì…€ê°’ ì°¨ì´ê°€ TH1ê°’ ì´ìƒì¼ë•Œë§Œ ê²€ì¶œëœë‹¤
 
 	int TH_WIDTH = 10;
 	int TH_HEIGHT = 10;
-	// °ËÃâµÈ blob¿¡ °¡·Î¼¼·Î Å©±â°¡ ¾ó¸¶ ÀÌ»óÀÏ¶§ °ËÃâÇÒ °ÇÁö ±¸ÇÏ´Â º¯¼ö
+	// ê²€ì¶œëœ blobì— ê°€ë¡œì„¸ë¡œ í¬ê¸°ê°€ ì–¼ë§ˆ ì´ìƒì¼ë•Œ ê²€ì¶œí•  ê±´ì§€ êµ¬í•˜ëŠ” ë³€ìˆ˜
 	int TH_AREA;
-	// blob¿¡ ¸éÀûÀÌ ¾ó¸¶ ÀÌ»óÀÏ¶§¸¸ °ËÃâÇÒ °ÇÁö ±¸ÇÏ´Â º¯¼ö
+	// blobì— ë©´ì ì´ ì–¼ë§ˆ ì´ìƒì¼ë•Œë§Œ ê²€ì¶œí•  ê±´ì§€ êµ¬í•˜ëŠ” ë³€ìˆ˜
 
 	float detection_ratio = 0.02;
-	// TH¸¦ °è»êÇÏ±âÀ§ÇÑ º¯¼ö
+	// THë¥¼ ê³„ì‚°í•˜ê¸°ìœ„í•œ ë³€ìˆ˜
 
 	float detection_area = 0.001;
 	
-	int alpha = 0.9; //ÀÌ°ªÀ» ³·Ãâ¼ö·Ï ¾÷µ¥ÀÌÆ® ¼Óµµ°¡ ´À·ÁÁü
+	int alpha = 0.9; //ì´ê°’ì„ ë‚®ì¶œìˆ˜ë¡ ì—…ë°ì´íŠ¸ ì†ë„ê°€ ëŠë ¤ì§
 	int beta = (1.0 - alpha);
 	int min_area_percent = 0.1;
 
@@ -95,7 +92,7 @@ int main(int, char)
 
 	int count = 0;
 	int SKIP = 50;
-	//50ÇÁ·¹ÀÓ Á¤µµ´Â ±×³É Èê·Áº¸³½´Ù (Ã³À½¿¡ ÇÁ·¹ÀÓÀÌ ±úÁ®¼­ µé¾î¿Ã¼öµµ ÀÖ±â¶§¹®)
+	//50í”„ë ˆì„ ì •ë„ëŠ” ê·¸ëƒ¥ í˜ë ¤ë³´ë‚¸ë‹¤ (ì²˜ìŒì— í”„ë ˆì„ì´ ê¹¨ì ¸ì„œ ë“¤ì–´ì˜¬ìˆ˜ë„ ìˆê¸°ë•Œë¬¸)
 
 	while (1)
 	{
@@ -104,17 +101,17 @@ int main(int, char)
 		
 		if (old_frame.empty())
 		{
-			old_frame = frame.clone(); //51ÇÁ·¹ÀÓ¿¡¼­ BG°¡ µé¾î¿À°í
+			old_frame = frame.clone(); //51í”„ë ˆì„ì—ì„œ BGê°€ ë“¤ì–´ì˜¤ê³ 
 			cvtColor(old_frame, bg_frame_binary, COLOR_BGR2GRAY);
 
 			//TH_AREA = bg_frame_binary.size().area() * min_area_percent / 100.0;
 
-			//ÀúÀåµÈ ¿µ»óÀ» GRAY°ªÀ¸·Î º¯È¯ÇØÁØ´Ù
+			//ì €ì¥ëœ ì˜ìƒì„ GRAYê°’ìœ¼ë¡œ ë³€í™˜í•´ì¤€ë‹¤
 			TH_WIDTH = int(old_frame.cols * detection_ratio);
 			TH_HEIGHT = int(old_frame.rows * detection_ratio);
-			//¹è°æÀÇ °¡·Î(cols), ¼¼·Î(rows) Å©±âÀÇ ¸îÆÛ¼¾Æ®¸¦ width,height TH·Î »ç¿ëÇÒ°ÍÀÎÁö Á¤ÇÏ´ÂÇÔ¼ö 
+			//ë°°ê²½ì˜ ê°€ë¡œ(cols), ì„¸ë¡œ(rows) í¬ê¸°ì˜ ëª‡í¼ì„¼íŠ¸ë¥¼ width,height THë¡œ ì‚¬ìš©í• ê²ƒì¸ì§€ ì •í•˜ëŠ”í•¨ìˆ˜ 
 			TH_AREA = int((old_frame.cols * old_frame.rows)* detection_area);
-			//detection_areaÀ» °öÇØÁÜÀ¸·Î½á TH_AREA°¡ v_rect ¿¡´Ù°¡ TH°ªÀ» ³Ö¾îÁÜ
+			//detection_areaì„ ê³±í•´ì¤Œìœ¼ë¡œì¨ TH_AREAê°€ v_rect ì—ë‹¤ê°€ THê°’ì„ ë„£ì–´ì¤Œ
 			continue;
 		}
 
@@ -128,25 +125,25 @@ int main(int, char)
 		}
 
 		//subtract(old_frame, frame, sub_frame);
-		// old_frame°ú frameÀÌ »©±â¸¦ ÇØ¼­ sub_frame ¿¡ ³Ö´Â´Ù
+		// old_frameê³¼ frameì´ ë¹¼ê¸°ë¥¼ í•´ì„œ sub_frame ì— ë„£ëŠ”ë‹¤
 		// old_frame - frame = sub_frame
 		absdiff(bg_frame_binary, frame_binary, sub_frame);
 		threshold(sub_frame, sub_frame,TH1,255,THRESH_BINARY);
 		morphologyEx(sub_frame, sub_frame, MORPH_CLOSE, element);
 		//imshow("absdiff_frame", absdiff_frame);
-		//sub_frame ÀÌÁøÈ­µÈ ÇÁ·¹ÀÓ
+		//sub_frame ì´ì§„í™”ëœ í”„ë ˆì„
 		
 		//find contour
 		vector< vector< Point> >contours;
 		vector<Vec4i>hierarchy;
 		findContours(sub_frame.clone(), contours, hierarchy,RETR_CCOMP,CHAIN_APPROX_SIMPLE);
-		// findContour : blobÀ» Ã£´Â ÇÔ¼ö
+		// findContour : blobì„ ì°¾ëŠ” í•¨ìˆ˜
 		// drawContours(frame, contours, -1, CV_RGB(255,0,0),5,7,hierarchy);
 		
 		//Blob labeling
-		//blobÀÌ¶õ µ¥ÀÌÅÍ¸¦ Æ÷ÇÔÇÒ ¼ö ÀÖ´Â ´ÙÂ÷¿øÀÇ µ¥ÀÌÅÍ Ç¥Çö ¹æ½Ä
-		// (¿¹¿ÜÀÇ °ËÃâµÇ´Â °Íµé,·¹Æ¼Å¬)
-		//OpenCV¿¡¼­ blobÀº 4Â÷¿øÀÇ MatÀ¸·Î Ç¥Çö
+		//blobì´ë€ ë°ì´í„°ë¥¼ í¬í•¨í•  ìˆ˜ ìˆëŠ” ë‹¤ì°¨ì›ì˜ ë°ì´í„° í‘œí˜„ ë°©ì‹
+		// (ì˜ˆì™¸ì˜ ê²€ì¶œë˜ëŠ” ê²ƒë“¤,ë ˆí‹°í´)
+		//OpenCVì—ì„œ blobì€ 4ì°¨ì›ì˜ Matìœ¼ë¡œ í‘œí˜„
 		vector<Rect>v_rect;
 		for (auto it : contours) //ranged-based for statement for(dtype dst:src)
 		{
@@ -156,9 +153,9 @@ int main(int, char)
 			//if (mr.width > TH_WIDTH || mr.height > TH_HEIGHT)
 			//	v_rect.push_back(mr);
 
-			//blobÀÇ ¸éÀûÀ» ÀÌ¿ëÇÑ ¹æ¹ı
+			//blobì˜ ë©´ì ì„ ì´ìš©í•œ ë°©ë²•
 			double area = contourArea(it, false);
-			//auto ¼±¾ğÇÏ´Â ÀÎ½ºÅÏ½º(º¯¼ö)ÀÇ Çü½ÄÀÌ 'ÀÚµ¿'À¸·Î °áÁ¤
+			//auto ì„ ì–¸í•˜ëŠ” ì¸ìŠ¤í„´ìŠ¤(ë³€ìˆ˜)ì˜ í˜•ì‹ì´ 'ìë™'ìœ¼ë¡œ ê²°ì •
 
 			if (area > TH_AREA)
 			{
@@ -188,14 +185,14 @@ int main(int, char)
 	resize(img, img, Size(640, 480));
 
 	Mat element = getStructuringElement(MORPH_RECT, Size(3,3),Point(1,1));
-	//MORPH_RECT´Â 3x3 ¿¡ 1·Î ´Ù Ã¤¿î°ÍÀÌ°í
-	//MORPH_ELLIPSE´Â 3x3 ¿¡ ¿ø°°Àº ¸ğ¾çÀ¸·Î 1ÀÌ Ã¤¿öÁö°í
-	//MORPH_CROSS´Â 3x3¿¡ ½ÊÀÚ°¡ ÇüÅÂ·Î 1ÀÌ Ã¤¿öÁø´Ù
+	//MORPH_RECTëŠ” 3x3 ì— 1ë¡œ ë‹¤ ì±„ìš´ê²ƒì´ê³ 
+	//MORPH_ELLIPSEëŠ” 3x3 ì— ì›ê°™ì€ ëª¨ì–‘ìœ¼ë¡œ 1ì´ ì±„ì›Œì§€ê³ 
+	//MORPH_CROSSëŠ” 3x3ì— ì‹­ìê°€ í˜•íƒœë¡œ 1ì´ ì±„ì›Œì§„ë‹¤
 
 	Mat rImg;
 	morphologyEx(img, rImg, MORPH_OPEN, element);
 	//morphologyEx(img, img, MORPH_CLOSE, element); -> It's also ok.
-	//morphologyEx(src, dst,Opening or Closing , ¸¶½ºÅ©°ª);
+	//morphologyEx(src, dst,Opening or Closing , ë§ˆìŠ¤í¬ê°’);
 
 	namedWindow("i");
 	imshow("i", img);
