@@ -23,6 +23,3 @@ https://youtu.be/MNn9qKG2UFI
 ### Processed image
 * cv2.imshow("cropped_image",cropped_image)
 <img src="https://github.com/moonseobHwang/OpenCV_Python/blob/main/Github_img/cropped_image1.JPG" width="480" alt="Combined Image" />
-
-## Reference
-https://www.youtube.com/watch?v=0se6_UPNWVc&t=105s
