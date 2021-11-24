@@ -13,13 +13,13 @@ https://youtu.be/MNn9qKG2UFI
     
 ## Image of test results
 ### Detection image
-* cv2.imshow("original_image",image_old)
+* imshow("frame", frame);
 <img src="https://github.com/moonseobHwang/OpenCV_Cpp/blob/main/Github_img/KakaoTalk_20211124_200410305_02.png" width="480" alt="Combined Image" />
 
 ### Sub_frame image
-* cv2.imshow("DrawLineonMyWay",image_with_lines)
+* imshow("sub_frame", sub_frame);
 <img src="https://github.com/moonseobHwang/OpenCV_Cpp/blob/main/Github_img/KakaoTalk_20211124_200410305_01.png" width="480" alt="Combined Image" />
 
 ### BG_frame_binary image
-* cv2.imshow("cropped_image",cropped_image)
+* imshow("bg_frame_binary", bg_frame_binary);
 <img src="https://github.com/moonseobHwang/OpenCV_Cpp/blob/main/Github_img/KakaoTalk_20211124_200410305.png" width="480" alt="Combined Image" />
