@@ -3,7 +3,6 @@
 This project detection objects(moving objects, including cars) using C++ and OpenCV. A video of the end-result 
 
 can be found at:
-
 https://youtu.be/MNn9qKG2UFI
 
 
